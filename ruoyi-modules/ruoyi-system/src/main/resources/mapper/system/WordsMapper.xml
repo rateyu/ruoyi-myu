@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.WordsMapper">
+    
+    <resultMap type="Words" id="WordsResult">
+        <result property="id"    column="id"    />
+        <result property="word"    column="word"    />
+        <result property="wordLabel"    column="word_label"    />
+        <result property="wordOrder"    column="word_order"    />
+    </resultMap>
+
+    <sql id="selectWordsVo">
+        select id, word, word_label, word_order from words
+    </sql>
+
+    <select id="selectWordsList" parameterType="Words" resultMap="WordsResult">
+        <include refid="selectWordsVo"/>
+        <where>  
+            <if test="word != null  and word != ''"> and word = #{word}</if>
+            <if test="wordLabel != null  and wordLabel != ''"> and word_label = #{wordLabel}</if>
+            <if test="wordOrder != null "> and word_order = #{wordOrder}</if>
+        </where>
+    </select>
+    
+    <select id="selectWordsById" parameterType="Long" resultMap="WordsResult">
+        <include refid="selectWordsVo"/>
+        where id = #{id}
+    </select>
+
+<!--    <select id="selectWordsByIdNext" parameterType="Long" resultMap="WordsResult">
+        select ws.id, word, word_label, word_order from words ws LEFT JOIN user_word uw
+        on ws.id &lt;&gt;  uw.word_id and ws.id > #{id} order by ws.id asc limit 1
+    </select>-->
+
+    <select id="selectWordsByIdNext" parameterType="UserState" resultMap="WordsResult">
+        select ws.id, word, word_label, word_order from words ws where ws.id not in (select uw.word_id from user_word uw where uw.user_id = #{userId}) and ws.id > #{wordId}  order by ws.id asc limit 1
+    </select>
+
+    <select id="selectWordsByIdLast" parameterType="UserState" resultMap="WordsResult">
+        select ws.id, word, word_label, word_order from words ws where ws.id not in (select uw.word_id from user_word uw where uw.user_id = #{userId}) and ws.id &lt; #{wordId}  order by ws.id desc limit 1
+    </select>
+
+    <select id="selectWordsByIdCurrent" parameterType="UserState" resultMap="WordsResult">
+        select ws.id, word, word_label, word_order from words ws where ws.id not in (select uw.word_id from user_word uw where uw.user_id = #{userId}) and ws.id = #{wordId}  order by ws.id desc limit 1
+    </select>
+        
+    <insert id="insertWords" parameterType="Words" useGeneratedKeys="true" keyProperty="id">
+        insert into words
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="word != null">word,</if>
+            <if test="wordLabel != null">word_label,</if>
+            <if test="wordOrder != null">word_order,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="word != null">#{word},</if>
+            <if test="wordLabel != null">#{wordLabel},</if>
+            <if test="wordOrder != null">#{wordOrder},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWords" parameterType="Words">
+        update words
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="word != null">word = #{word},</if>
+            <if test="wordLabel != null">word_label = #{wordLabel},</if>
+            <if test="wordOrder != null">word_order = #{wordOrder},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteWordsById" parameterType="Long">
+        delete from words where id = #{id}
+    </delete>
+
+    <delete id="deleteWordsByIds" parameterType="String">
+        delete from words where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

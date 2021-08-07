@@ -116,3 +116,13 @@ com.ruoyi
 ## 若依微服务交流群
 
 QQ群： [![加入QQ群](https://img.shields.io/badge/已满-42799195-blue.svg)](https://jq.qq.com/?_wv=1027&k=yqInfq0S) [![加入QQ群](https://img.shields.io/badge/已满-170157040-blue.svg)](https://jq.qq.com/?_wv=1027&k=Oy1mb3p8) [![加入QQ群](https://img.shields.io/badge/已满-130643120-blue.svg)](https://jq.qq.com/?_wv=1027&k=rvxkJtXK) [![加入QQ群](https://img.shields.io/badge/225920371-blue.svg)](https://jq.qq.com/?_wv=1027&k=0Ck3PvTe) 点击按钮入群。
+
+
+产品类型
+- 信用贷款
+- 担保贷款
+
+贷款期限
+- 短期贷款
+- 中期贷款
+- 长期贷款

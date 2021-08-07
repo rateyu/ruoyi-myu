@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.UserStateMapper">
+    
+    <resultMap type="UserState" id="UserStateResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="wordId"    column="word_id"    />
+        <result property="wordLevel"    column="word_level"    />
+    </resultMap>
+
+    <sql id="selectUserStateVo">
+        select id, user_id, word_id, word_level from user_state
+    </sql>
+
+    <select id="selectUserStateList" parameterType="UserState" resultMap="UserStateResult">
+        <include refid="selectUserStateVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="wordId != null "> and word_id = #{wordId}</if>
+            <if test="wordLevel != null "> and word_level = #{wordLevel}</if>
+        </where>
+    </select>
+    
+    <select id="selectUserStateById" parameterType="Long" resultMap="UserStateResult">
+        <include refid="selectUserStateVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectUserStateByUserId" parameterType="Long" resultMap="UserStateResult">
+        <include refid="selectUserStateVo"/>
+        where user_id = #{id}
+    </select>
+        
+    <insert id="insertUserState" parameterType="UserState" useGeneratedKeys="true" keyProperty="id">
+        insert into user_state
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="wordId != null">word_id,</if>
+            <if test="wordLevel != null">word_level,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="wordId != null">#{wordId},</if>
+            <if test="wordLevel != null">#{wordLevel},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUserState" parameterType="UserState">
+        update user_state
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="wordId != null">word_id = #{wordId},</if>
+            <if test="wordLevel != null">word_level = #{wordLevel},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteUserStateById" parameterType="Long">
+        delete from user_state where id = #{id}
+    </delete>
+
+    <delete id="deleteUserStateByIds" parameterType="String">
+        delete from user_state where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

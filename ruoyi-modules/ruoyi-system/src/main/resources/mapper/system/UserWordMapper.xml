@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.UserWordMapper">
+    
+    <resultMap type="UserWord" id="UserWordResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="wordId"    column="word_id"    />
+        <result property="memLevel"    column="mem_level"    />
+    </resultMap>
+
+    <sql id="selectUserWordVo">
+        select id, user_id, word_id, mem_level from user_word
+    </sql>
+
+    <select id="selectUserWordList" parameterType="UserWord" resultMap="UserWordResult">
+        <include refid="selectUserWordVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="wordId != null "> and word_id = #{wordId}</if>
+            <if test="memLevel != null "> and mem_level = #{memLevel}</if>
+        </where>
+    </select>
+    
+    <select id="selectUserWordById" parameterType="Long" resultMap="UserWordResult">
+        <include refid="selectUserWordVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertUserWord" parameterType="UserWord" useGeneratedKeys="true" keyProperty="id">
+        insert into user_word
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="wordId != null">word_id,</if>
+            <if test="memLevel != null">mem_level,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="wordId != null">#{wordId},</if>
+            <if test="memLevel != null">#{memLevel},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUserWord" parameterType="UserWord">
+        update user_word
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="wordId != null">word_id = #{wordId},</if>
+            <if test="memLevel != null">mem_level = #{memLevel},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteUserWordById" parameterType="Long">
+        delete from user_word where id = #{id}
+    </delete>
+
+    <delete id="deleteUserWordByIds" parameterType="String">
+        delete from user_word where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
