@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.UserwordV1Mapper">
+    
+    <resultMap type="UserwordV1" id="UserwordV1Result">
+        <result property="userid"    column="USERID"    />
+        <result property="wordid"    column="WORDID"    />
+        <result property="type"    column="TYPE"    />
+        <result property="userNotes"    column="USER_NOTES"    />
+        <result property="relationalMap"    column="RELATIONAL_MAP"    />
+        <result property="level"    column="LEVEL"    />
+        <result property="state"    column="STATE"    />
+        <result property="attributes"    column="ATTRIBUTES"    />
+    </resultMap>
+
+    <sql id="selectUserwordV1Vo">
+        select USERID, WORDID, TYPE, USER_NOTES, RELATIONAL_MAP, LEVEL, STATE, ATTRIBUTES from USERWORD_V1
+    </sql>
+
+    <select id="selectUserwordV1List" parameterType="UserwordV1" resultMap="UserwordV1Result">
+        <include refid="selectUserwordV1Vo"/>
+        <where>  
+            <if test="userid != null "> and USERID = #{userid}</if>
+            <if test="wordid != null "> and WORDID = #{wordid}</if>
+            <if test="type != null "> and TYPE = #{type}</if>
+            <if test="userNotes != null  and userNotes != ''"> and USER_NOTES = #{userNotes}</if>
+            <if test="relationalMap != null  and relationalMap != ''"> and RELATIONAL_MAP = #{relationalMap}</if>
+            <if test="level != null "> and LEVEL = #{level}</if>
+            <if test="state != null  and state != ''"> and STATE = #{state}</if>
+            <if test="attributes != null  and attributes != ''"> and ATTRIBUTES = #{attributes}</if>
+        </where>
+    </select>
+    
+    <select id="selectUserwordV1ById" parameterType="Long" resultMap="UserwordV1Result">
+        <include refid="selectUserwordV1Vo"/>
+        where USERID = #{userid}
+    </select>
+        
+    <insert id="insertUserwordV1" parameterType="UserwordV1">
+        insert into USERWORD_V1
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userid != null">USERID,</if>
+            <if test="wordid != null">WORDID,</if>
+            <if test="type != null">TYPE,</if>
+            <if test="userNotes != null">USER_NOTES,</if>
+            <if test="relationalMap != null">RELATIONAL_MAP,</if>
+            <if test="level != null">LEVEL,</if>
+            <if test="state != null">STATE,</if>
+            <if test="attributes != null">ATTRIBUTES,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userid != null">#{userid},</if>
+            <if test="wordid != null">#{wordid},</if>
+            <if test="type != null">#{type},</if>
+            <if test="userNotes != null">#{userNotes},</if>
+            <if test="relationalMap != null">#{relationalMap},</if>
+            <if test="level != null">#{level},</if>
+            <if test="state != null">#{state},</if>
+            <if test="attributes != null">#{attributes},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUserwordV1" parameterType="UserwordV1">
+        update USERWORD_V1
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="wordid != null">WORDID = #{wordid},</if>
+            <if test="type != null">TYPE = #{type},</if>
+            <if test="userNotes != null">USER_NOTES = #{userNotes},</if>
+            <if test="relationalMap != null">RELATIONAL_MAP = #{relationalMap},</if>
+            <if test="level != null">LEVEL = #{level},</if>
+            <if test="state != null">STATE = #{state},</if>
+            <if test="attributes != null">ATTRIBUTES = #{attributes},</if>
+        </trim>
+        where USERID = #{userid}
+    </update>
+
+    <delete id="deleteUserwordV1ById" parameterType="Long">
+        delete from USERWORD_V1 where USERID = #{userid}
+    </delete>
+
+    <delete id="deleteUserwordV1ByIds" parameterType="String">
+        delete from USERWORD_V1 where USERID in 
+        <foreach item="userid" collection="array" open="(" separator="," close=")">
+            #{userid}
+        </foreach>
+    </delete>
+</mapper>

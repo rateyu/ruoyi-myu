@@ -8,6 +8,13 @@ export function getWords() {
   })
 }
 
+export function getWordsV1() {
+  return request({
+    url: '/system/wordsV1/list',
+    method: 'get'
+  })
+}
+
 // 查询用户详细
 export function getWord(wordId) {
   return request({

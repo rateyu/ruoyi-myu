@@ -8,28 +8,16 @@
         <el-button type="primary" size="mini" @click="startChangeA()"> last </el-button>
         <el-button type="primary" size="mini" @click="startChangeB()"> get it </el-button>
         <el-button type="primary" size="mini" @click="startChangeC()"> next </el-button>
-        <el-button type="primary" size="mini" @click="startChangeD()"> test </el-button>
 <!--      <el-form-item size="large">
         <el-button type="primary" @click="submitForm">提交</el-button>
         <el-button @click="resetForm">重置</el-button>
       </el-form-item>-->
     </el-form>
-
-    <el-row
-      :gutter="20"
-      v-for="(item, index) in list"
-      :key=" + index"
-    >
-      <div >  {{item.wordsid}} {{ item.english }} {{ item.english2ch }}</div>
-    </el-row>
-
   </div>
 </template>
 <script>
 
-  import { getWords,getWord,getWordNext,getWordLast,insertUserWord,getWordCurrent,getWordsV1 } from "@/api/test/hello";
-  // import mock from './test/mock.js'
-  // import axios from 'axios'
+  import { getWords,getWord,getWordNext,getWordLast,insertUserWord,getWordCurrent } from "@/api/test/hello";
 
   export default {
     components: {},
@@ -50,7 +38,6 @@
             trigger: 'blur'
           }],
         },
-        list: [],
       }
     },
     computed: {},
@@ -123,20 +110,6 @@
           // this.open = true;
           // this.title = "添加用户";
           // this.form.password = this.initPassword;
-        });
-      },
-
-      startChangeD() {
-/*        axios.post("/list").then(response => {
-          if (response.data) {
-            console.log(response.data)
-            alert(response.data.name + ',' + response.data.age+','+response.data.list)
-          }
-        })*/
-
-        getWordsV1().then(response => {
-          console.log(response.rows)
-          this.list = response.rows
         });
       },
     }

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.WordsV1Mapper">
+    
+    <resultMap type="WordsV1" id="WordsV1Result">
+        <result property="wordsid"    column="WORDSID"    />
+        <result property="chinese"    column="CHINESE"    />
+        <result property="english"    column="ENGLISH"    />
+        <result property="phonetic"    column="PHONETIC"    />
+        <result property="english2en"    column="ENGLISH2EN"    />
+        <result property="english2ch"    column="ENGLISH2CH"    />
+        <result property="sentence"    column="SENTENCE"    />
+        <result property="picture"    column="PICTURE"    />
+        <result property="audio"    column="AUDIO"    />
+        <result property="video"    column="VIDEO"    />
+        <result property="externalLink"    column="EXTERNAL_LINK"    />
+        <result property="errorExample"    column="ERROR_EXAMPLE"    />
+        <result property="reference"    column="REFERENCE"    />
+        <result property="relationship"    column="RELATIONSHIP"    />
+        <result property="supplement1"    column="SUPPLEMENT_1"    />
+        <result property="supplement2"    column="SUPPLEMENT_2"    />
+        <result property="supplement3"    column="SUPPLEMENT_3"    />
+        <result property="supplement4"    column="SUPPLEMENT_4"    />
+        <result property="supplement5"    column="SUPPLEMENT_5"    />
+        <result property="type"    column="TYPE"    />
+        <result property="title"    column="TITLE"    />
+        <result property="unit"    column="UNIT"    />
+        <result property="courses"    column="COURSES"    />
+        <result property="attributes"    column="ATTRIBUTES"    />
+    </resultMap>
+
+    <sql id="selectWordsV1Vo">
+        select WORDSID, CHINESE, ENGLISH, PHONETIC, ENGLISH2EN, ENGLISH2CH, SENTENCE, PICTURE, AUDIO, VIDEO, EXTERNAL_LINK, ERROR_EXAMPLE, REFERENCE, RELATIONSHIP, SUPPLEMENT_1, SUPPLEMENT_2, SUPPLEMENT_3, SUPPLEMENT_4, SUPPLEMENT_5, TYPE, TITLE, UNIT, COURSES, ATTRIBUTES from WORDS_V1
+    </sql>
+
+<!--    <select id="selectWordsByIdNextV1" parameterType="UserState" resultMap="WordsResult">
+        select ws.id, word, word_label, word_order from words ws where ws.id not in (select uw.word_id from user_word uw where uw.user_id = #{userId}) and ws.id > #{wordId}  order by ws.id asc limit 1
+    </select>
+
+    <select id="selectWordsByIdLastV1" parameterType="UserState" resultMap="WordsResult">
+        select ws.id, word, word_label, word_order from words ws where ws.id not in (select uw.word_id from user_word uw where uw.user_id = #{userId}) and ws.id &lt; #{wordId}  order by ws.id desc limit 1
+    </select>
+
+    <select id="selectWordsByIdCurrentV1" parameterType="UserState" resultMap="WordsResult">
+        select ws.id, word, word_label, word_order from words ws where ws.id not in (select uw.word_id from user_word uw where uw.user_id = #{userId}) and ws.id = #{wordId}  order by ws.id desc limit 1
+    </select>-->
+
+    <select id="selectWordsV1List" parameterType="WordsV1" resultMap="WordsV1Result">
+        <include refid="selectWordsV1Vo"/>
+        <where>  
+            <if test="wordsid != null "> and WORDSID = #{wordsid}</if>
+            <if test="chinese != null  and chinese != ''"> and CHINESE = #{chinese}</if>
+            <if test="english != null  and english != ''"> and ENGLISH = #{english}</if>
+            <if test="phonetic != null  and phonetic != ''"> and PHONETIC = #{phonetic}</if>
+            <if test="english2en != null  and english2en != ''"> and ENGLISH2EN = #{english2en}</if>
+            <if test="english2ch != null  and english2ch != ''"> and ENGLISH2CH = #{english2ch}</if>
+            <if test="sentence != null  and sentence != ''"> and SENTENCE = #{sentence}</if>
+            <if test="picture != null  and picture != ''"> and PICTURE = #{picture}</if>
+            <if test="audio != null  and audio != ''"> and AUDIO = #{audio}</if>
+            <if test="video != null  and video != ''"> and VIDEO = #{video}</if>
+            <if test="externalLink != null  and externalLink != ''"> and EXTERNAL_LINK = #{externalLink}</if>
+            <if test="errorExample != null  and errorExample != ''"> and ERROR_EXAMPLE = #{errorExample}</if>
+            <if test="reference != null  and reference != ''"> and REFERENCE = #{reference}</if>
+            <if test="relationship != null  and relationship != ''"> and RELATIONSHIP = #{relationship}</if>
+            <if test="supplement1 != null  and supplement1 != ''"> and SUPPLEMENT_1 = #{supplement1}</if>
+            <if test="supplement2 != null  and supplement2 != ''"> and SUPPLEMENT_2 = #{supplement2}</if>
+            <if test="supplement3 != null  and supplement3 != ''"> and SUPPLEMENT_3 = #{supplement3}</if>
+            <if test="supplement4 != null  and supplement4 != ''"> and SUPPLEMENT_4 = #{supplement4}</if>
+            <if test="supplement5 != null  and supplement5 != ''"> and SUPPLEMENT_5 = #{supplement5}</if>
+            <if test="type != null "> and TYPE = #{type}</if>
+            <if test="title != null  and title != ''"> and TITLE = #{title}</if>
+            <if test="unit != null  and unit != ''"> and UNIT = #{unit}</if>
+            <if test="courses != null  and courses != ''"> and COURSES = #{courses}</if>
+            <if test="attributes != null  and attributes != ''"> and ATTRIBUTES = #{attributes}</if>
+        </where>
+    </select>
+    
+    <select id="selectWordsV1ById" parameterType="Long" resultMap="WordsV1Result">
+        <include refid="selectWordsV1Vo"/>
+        where WORDSID = #{wordsid}
+    </select>
+        
+    <insert id="insertWordsV1" parameterType="WordsV1">
+        insert into WORDS_V1
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="wordsid != null">WORDSID,</if>
+            <if test="chinese != null">CHINESE,</if>
+            <if test="english != null">ENGLISH,</if>
+            <if test="phonetic != null">PHONETIC,</if>
+            <if test="english2en != null">ENGLISH2EN,</if>
+            <if test="english2ch != null">ENGLISH2CH,</if>
+            <if test="sentence != null">SENTENCE,</if>
+            <if test="picture != null">PICTURE,</if>
+            <if test="audio != null">AUDIO,</if>
+            <if test="video != null">VIDEO,</if>
+            <if test="externalLink != null">EXTERNAL_LINK,</if>
+            <if test="errorExample != null">ERROR_EXAMPLE,</if>
+            <if test="reference != null">REFERENCE,</if>
+            <if test="relationship != null">RELATIONSHIP,</if>
+            <if test="supplement1 != null">SUPPLEMENT_1,</if>
+            <if test="supplement2 != null">SUPPLEMENT_2,</if>
+            <if test="supplement3 != null">SUPPLEMENT_3,</if>
+            <if test="supplement4 != null">SUPPLEMENT_4,</if>
+            <if test="supplement5 != null">SUPPLEMENT_5,</if>
+            <if test="type != null">TYPE,</if>
+            <if test="title != null">TITLE,</if>
+            <if test="unit != null">UNIT,</if>
+            <if test="courses != null">COURSES,</if>
+            <if test="attributes != null">ATTRIBUTES,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="wordsid != null">#{wordsid},</if>
+            <if test="chinese != null">#{chinese},</if>
+            <if test="english != null">#{english},</if>
+            <if test="phonetic != null">#{phonetic},</if>
+            <if test="english2en != null">#{english2en},</if>
+            <if test="english2ch != null">#{english2ch},</if>
+            <if test="sentence != null">#{sentence},</if>
+            <if test="picture != null">#{picture},</if>
+            <if test="audio != null">#{audio},</if>
+            <if test="video != null">#{video},</if>
+            <if test="externalLink != null">#{externalLink},</if>
+            <if test="errorExample != null">#{errorExample},</if>
+            <if test="reference != null">#{reference},</if>
+            <if test="relationship != null">#{relationship},</if>
+            <if test="supplement1 != null">#{supplement1},</if>
+            <if test="supplement2 != null">#{supplement2},</if>
+            <if test="supplement3 != null">#{supplement3},</if>
+            <if test="supplement4 != null">#{supplement4},</if>
+            <if test="supplement5 != null">#{supplement5},</if>
+            <if test="type != null">#{type},</if>
+            <if test="title != null">#{title},</if>
+            <if test="unit != null">#{unit},</if>
+            <if test="courses != null">#{courses},</if>
+            <if test="attributes != null">#{attributes},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWordsV1" parameterType="WordsV1">
+        update WORDS_V1
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="chinese != null">CHINESE = #{chinese},</if>
+            <if test="english != null">ENGLISH = #{english},</if>
+            <if test="phonetic != null">PHONETIC = #{phonetic},</if>
+            <if test="english2en != null">ENGLISH2EN = #{english2en},</if>
+            <if test="english2ch != null">ENGLISH2CH = #{english2ch},</if>
+            <if test="sentence != null">SENTENCE = #{sentence},</if>
+            <if test="picture != null">PICTURE = #{picture},</if>
+            <if test="audio != null">AUDIO = #{audio},</if>
+            <if test="video != null">VIDEO = #{video},</if>
+            <if test="externalLink != null">EXTERNAL_LINK = #{externalLink},</if>
+            <if test="errorExample != null">ERROR_EXAMPLE = #{errorExample},</if>
+            <if test="reference != null">REFERENCE = #{reference},</if>
+            <if test="relationship != null">RELATIONSHIP = #{relationship},</if>
+            <if test="supplement1 != null">SUPPLEMENT_1 = #{supplement1},</if>
+            <if test="supplement2 != null">SUPPLEMENT_2 = #{supplement2},</if>
+            <if test="supplement3 != null">SUPPLEMENT_3 = #{supplement3},</if>
+            <if test="supplement4 != null">SUPPLEMENT_4 = #{supplement4},</if>
+            <if test="supplement5 != null">SUPPLEMENT_5 = #{supplement5},</if>
+            <if test="type != null">TYPE = #{type},</if>
+            <if test="title != null">TITLE = #{title},</if>
+            <if test="unit != null">UNIT = #{unit},</if>
+            <if test="courses != null">COURSES = #{courses},</if>
+            <if test="attributes != null">ATTRIBUTES = #{attributes},</if>
+        </trim>
+        where WORDSID = #{wordsid}
+    </update>
+
+    <delete id="deleteWordsV1ById" parameterType="Long">
+        delete from WORDS_V1 where WORDSID = #{wordsid}
+    </delete>
+
+    <delete id="deleteWordsV1ByIds" parameterType="String">
+        delete from WORDS_V1 where WORDSID in 
+        <foreach item="wordsid" collection="array" open="(" separator="," close=")">
+            #{wordsid}
+        </foreach>
+    </delete>
+</mapper>
